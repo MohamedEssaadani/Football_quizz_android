@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
 
-    //Step 1: Declaration
+    //STEP 1: Declaration
     EditText etLogin;
     EditText etPassword;
 
@@ -30,7 +30,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Step 2: recuperation des ids
+        //STEP 2: Recuperation des ids
          etLogin = (EditText)findViewById(R.id.etLogin);
          etPassword = (EditText)findViewById(R.id.etPassword);
 
@@ -47,39 +47,28 @@ public class Login extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            Intent redirectToQuizz = new Intent(Login.this, Quizz1.class);
-            startActivity(redirectToQuizz);
+            startActivity(new Intent(Login.this, Quizz1.class));
         }
     }
 
     private void signIn(String email, String password) {
-            // [START sign_in_with_email]
             mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+			.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d("Login", "Login:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                Intent redirectToQuizz = new Intent(Login.this, Quizz1.class);
-                                startActivity(redirectToQuizz);
+                                startActivity( new Intent(Login.this, Quizz1.class));
                             } else {
                                 // If sign in fails, display a message to the user.
-                                Log.w("Login", "Login:failure", task.getException());
-                                Toast.makeText(Login.this, "Authentication failed.",
+                                Toast.makeText(Login.this, "Incorrect Password Or Email.",
                                         Toast.LENGTH_SHORT).show();
-                                Intent redirectToQuizz = new Intent(Login.this, Quizz1.class);
-                                startActivity(redirectToQuizz);
                             }
                         }
                     });
-            // [END sign_in_with_email]
         }
 
     public void showRegister(View view) {
-        Intent showRegister = new Intent(Login.this, Register.class);
-        startActivity(showRegister);
+        startActivity(new Intent(Login.this, Register.class));
     }
 
     public void login(View view){
@@ -89,13 +78,6 @@ public class Login extends AppCompatActivity {
 
         String login = etLogin.getText().toString();
         String password = etPassword.getText().toString();
-
-        /*if(login.equals("mohamed") && password.equals("123")){
-            Intent showQuizz = new Intent(Login.this, Quizz1.class);
-            startActivity(showQuizz);
-        }else{
-            Toast.makeText(getApplicationContext(), "Username or password is incorrect!!", Toast.LENGTH_SHORT).show();
-        }*/
 
         signIn(login, password);
 

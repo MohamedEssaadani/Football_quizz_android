@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Score extends AppCompatActivity {
 
     private static int score=0;
@@ -31,6 +33,7 @@ public class Score extends AppCompatActivity {
     }
 
     public void exit(View view) {
+        FirebaseAuth.getInstance().signOut();
         this.finishAffinity();
     }
 }
