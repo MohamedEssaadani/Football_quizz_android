@@ -12,7 +12,9 @@
         android:layout_width="300dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
-        android:src="@drawable/cl"/>
+        android:id="@+id/imgQuestion"
+        />
+   <!-- android:src="@drawable/cl"-->
 
     <TextView
         android:layout_width="match_parent"
