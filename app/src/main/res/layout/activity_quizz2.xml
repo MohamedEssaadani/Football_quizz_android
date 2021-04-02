@@ -32,15 +32,21 @@
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Zinedine Zidane"/>
+            android:id="@+id/rbOptionZidane"
+           />
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Luis Figo"/>
+            android:id="@+id/rbOptionLuis"
+
+            />
+
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Fabio Cannavaro"/>
+            android:id="@+id/rbOptionFabio"
+            />
+
     </RadioGroup>
 
     <Button

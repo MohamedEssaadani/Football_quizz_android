@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -17,6 +18,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,6 +34,8 @@ public class Quizz1 extends AppCompatActivity {
 
     ImageView quizz1Image;
     StorageReference storageReference;
+    private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +72,27 @@ public class Quizz1 extends AppCompatActivity {
         }
 
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("questions").child("cl").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
 
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    final RadioButton rbOptionOne = (RadioButton)findViewById(R.id.rbOptionOne);
+                    rbOptionOne.setText(task.getResult().child("optionOne").getValue().toString());
+
+                    final RadioButton rbOptionTwo = (RadioButton)findViewById(R.id.rbOptionTwo);
+                    rbOptionTwo.setText(task.getResult().child("optionTwo").getValue().toString());
+
+                    final RadioButton rbOptionThree = (RadioButton)findViewById(R.id.rbOptionThree);
+                    rbOptionThree.setText(task.getResult().child("optionThree").getValue().toString());
+                }
+            }
+        });
     }
 
 

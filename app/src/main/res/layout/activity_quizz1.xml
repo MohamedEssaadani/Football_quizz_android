@@ -33,15 +33,15 @@
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Liverpool"/>
+            android:id="@+id/rbOptionOne"/>
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Real Madrid"/>
+            android:id="@+id/rbOptionTwo"/>
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Juventus"/>
+            android:id="@+id/rbOptionThree"/>
     </RadioGroup>
 
     <Button

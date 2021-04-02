@@ -7,13 +7,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -23,6 +29,10 @@ import java.io.File;
 public class Quizz2 extends AppCompatActivity {
     ImageView quizz2Image;
     StorageReference storageReference;
+    RadioGroup rg;
+
+    private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +67,33 @@ public class Quizz2 extends AppCompatActivity {
             ex.getStackTrace();
         }
 
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("questions").child("bd").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    final RadioButton rbOptionOne = (RadioButton)findViewById(R.id.rbOptionZidane);
+                    rbOptionOne.setText(task.getResult().child("optionOne").getValue().toString());
+
+                    final RadioButton rbOptionTwo = (RadioButton)findViewById(R.id.rbOptionLuis);
+                    rbOptionTwo.setText(task.getResult().child("optionTwo").getValue().toString());
+
+                    final RadioButton rbOptionThree = (RadioButton)findViewById(R.id.rbOptionFabio);
+                    rbOptionThree.setText(task.getResult().child("optionThree").getValue().toString());
+                    }
+            }
+        });
+
     }
 
     public boolean check(){
-        RadioGroup rg = (RadioGroup) findViewById(R.id.rgQuestions2);
+         rg = (RadioGroup) findViewById(R.id.rgQuestions2);
         final String checkedValue =
                 ((RadioButton)findViewById(rg.getCheckedRadioButtonId()))
                         .getText().toString();
